@@ -28,21 +28,23 @@
   background: transparent;
   color: var(--cor-texto);
   text-align: left;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color var(--transicao);
 }
 
 .botao:hover {
-  background: var(--cor-superficie-alt);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .botao[aria-expanded='true'] {
   color: var(--cor-primaria);
+  background: var(--cor-superficie-alt);
 }
 
 .seta {
-  display: inline-block;
-  transition: transform 0.3s ease;
+  display: inline-flex;
+  transition: transform 0.25s ease;
 }
 
 .setaAberta {
@@ -52,7 +54,7 @@
 .painel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
+  transition: grid-template-rows 0.25s ease;
 }
 
 .painelAberto {
@@ -64,6 +66,8 @@
 }
 
 .conteudo {
-  padding: 0 var(--espaco-3) var(--espaco-3);
+  padding: var(--espaco-3);
+  border-top: 1px solid var(--cor-borda-suave);
   color: var(--cor-texto-suave);
+  font-size: 0.95rem;
 }

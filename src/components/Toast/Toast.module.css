@@ -10,20 +10,22 @@
   pointer-events: none;
 }
 
+/* Padrão .toast do Bootstrap: fundo branco, borda sutil, raio .375rem, sombra. */
 .toast {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--espaco-2);
-  padding: var(--espaco-2) var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-2) var(--espaco-2) var(--espaco-3);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--cor-destaque, var(--cor-info));
   border-radius: var(--raio);
-  border: 1px solid var(--cor-borda);
-  border-left: 5px solid var(--cor-destaque, var(--cor-info));
-  background: var(--cor-superficie);
+  background: var(--cor-superficie-elevada);
   color: var(--cor-texto);
-  box-shadow: var(--sombra-2);
+  font-size: 0.875rem;
+  box-shadow: var(--sombra-3);
   pointer-events: auto;
-  animation: entrar 0.25s ease-out;
+  animation: entrar 0.2s ease-out;
 }
 
 .sucesso {
@@ -42,40 +44,37 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--cor-destaque);
-  color: #fff;
-  font-size: 0.9rem;
+  width: 24px;
+  height: 24px;
+  color: var(--cor-destaque);
 }
 
 .mensagem {
   margin: 0;
-  font-size: 0.95rem;
 }
 
 .fechar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  min-height: 36px;
+  min-width: 34px;
+  min-height: 34px;
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--raio-sm);
   background: transparent;
-  color: var(--cor-texto-suave);
+  color: var(--cor-texto-fraco);
   cursor: pointer;
 }
 
 .fechar:hover {
   background: var(--cor-superficie-alt);
+  color: var(--cor-texto-forte);
 }
 
 @keyframes entrar {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -83,10 +82,9 @@
   }
 }
 
-/* Tablet e desktop: toasts ficam no canto inferior direito com largura fixa. */
 @media (min-width: 600px) {
   .container {
     left: auto;
-    width: min(380px, calc(100vw - 2 * var(--espaco-3)));
+    width: 350px;
   }
 }

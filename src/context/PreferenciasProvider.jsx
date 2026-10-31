@@ -1,6 +1,27 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { PreferenciasContext, TEMAS } from './PreferenciasContext.js'
 
+const CHAVE_ARMAZENAMENTO = 'loja-aurora:tema'
+
+/** Lê a preferência salva no navegador; qualquer falha (modo privado, bloqueio) devolve null. */
+function lerTemaSalvo() {
+  try {
+    const salvo = window.localStorage.getItem(CHAVE_ARMAZENAMENTO)
+    return TEMAS.includes(salvo) ? salvo : null
+  } catch {
+    return null
+  }
+}
+
+/** Persiste a preferência; falhas são ignoradas porque a funcionalidade continua sem persistência. */
+function salvarTema(tema) {
+  try {
+    window.localStorage.setItem(CHAVE_ARMAZENAMENTO, tema)
+  } catch {
+    // sem armazenamento disponível
+  }
+}
+
 /** Lê a preferência de cor do sistema operacional, com fallback seguro para 'claro'. */
 function obterTemaDoSistema() {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -15,7 +36,10 @@ function obterTemaDoSistema() {
  * "Preferências" da página de Perfil) — compartilhamento de estado global.
  */
 export default function PreferenciasProvider({ children, temaInicial = 'sistema' }) {
-  const [tema, setTemaInterno] = useState(TEMAS.includes(temaInicial) ? temaInicial : 'sistema')
+  // Prioridade: preferência salva pelo usuário > prop temaInicial > 'sistema'.
+  const [tema, setTemaInterno] = useState(
+    () => lerTemaSalvo() ?? (TEMAS.includes(temaInicial) ? temaInicial : 'sistema'),
+  )
   const [temaDoSistema, setTemaDoSistema] = useState(obterTemaDoSistema)
 
   // Efeito 1: acompanha mudanças do tema do sistema operacional enquanto 'sistema' estiver ativo.
@@ -39,6 +63,7 @@ export default function PreferenciasProvider({ children, temaInicial = 'sistema'
   const setTema = useCallback((novoTema) => {
     if (TEMAS.includes(novoTema)) {
       setTemaInterno(novoTema)
+      salvarTema(novoTema)
     }
   }, [])
 

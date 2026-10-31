@@ -25,18 +25,13 @@ const GARANTIAS = [
 export default function PaginaInicial() {
   const { adicionarToast } = useToast()
   const adicionarAoCarrinho = useAdicionarAoCarrinho()
-  const destaques = produtos.filter((produto) => produto.destaque === 'oferta').slice(0, 3)
+  const destaques = produtos.filter((produto) => produto.destaque === 'oferta').slice(0, 4)
 
   return (
     <>
       <section className={estilos.heroi} aria-labelledby="titulo-inicial">
         <div className={estilos.heroiConteudo}>
-          <span className="etiqueta etiqueta--primaria">
-            <Icone nome="raio" tamanho={14} /> Coleção 2026
-          </span>
-          <h1 id="titulo-inicial">
-            Tudo o que você precisa, <span className={estilos.heroiDestaque}>em um só lugar</span>.
-          </h1>
+          <h1 id="titulo-inicial">Tudo o que você precisa, em um só lugar.</h1>
           <p className={estilos.subtitulo}>
             Eletrônicos, livros, casa e esportes com entrega rápida e pagamento facilitado. Uma loja fictícia que
             demonstra seis componentes React em uso real.
@@ -54,7 +49,7 @@ export default function PaginaInicial() {
           {GARANTIAS.map((item) => (
             <li key={item.titulo} className={estilos.garantia}>
               <span className={estilos.garantiaIcone}>
-                <Icone nome={item.icone} tamanho={22} />
+                <Icone nome={item.icone} tamanho={28} espessura={1.5} />
               </span>
               <div>
                 <strong>{item.titulo}</strong>
@@ -105,7 +100,7 @@ export default function PaginaInicial() {
               <li key={item.titulo}>
                 <Elemento {...destino} className={`cartao cartao--interativo ${estilos.cartaoComponente}`}>
                   <span className={estilos.cartaoIcone}>
-                    <Icone nome={item.icone} tamanho={22} />
+                    <Icone nome={item.icone} tamanho={28} espessura={1.5} />
                   </span>
                   <h3>{item.titulo}</h3>
                   <p className="texto-suave">{item.descricao}</p>

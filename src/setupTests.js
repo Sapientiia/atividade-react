@@ -9,4 +9,5 @@ window.scrollTo = () => {}
 // a Testing Library não consegue registrar esse cleanup sozinha.
 afterEach(() => {
   cleanup()
+  window.localStorage.clear()
 })

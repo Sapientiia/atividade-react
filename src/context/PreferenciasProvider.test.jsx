@@ -122,3 +122,46 @@ describe('PreferenciasProvider / usePreferencias', () => {
     expect(media.ouvintes.size).toBe(0)
   })
 })
+
+describe('PreferenciasProvider — persistência', () => {
+  it('salva a escolha no localStorage e a recupera em uma nova montagem', async () => {
+    const usuario = userEvent.setup()
+    const { unmount } = render(
+      <PreferenciasProvider>
+        <Leitor />
+      </PreferenciasProvider>,
+    )
+    await usuario.click(screen.getByRole('button', { name: 'escuro' }))
+    expect(window.localStorage.getItem('loja-aurora:tema')).toBe('escuro')
+    unmount()
+
+    render(
+      <PreferenciasProvider temaInicial="claro">
+        <Leitor />
+      </PreferenciasProvider>,
+    )
+    expect(screen.getByTestId('tema')).toHaveTextContent('escuro')
+  })
+
+  it('ignora valores inválidos salvos e continua funcionando sem localStorage', () => {
+    window.localStorage.setItem('loja-aurora:tema', 'neon')
+    const { unmount } = render(
+      <PreferenciasProvider>
+        <Leitor />
+      </PreferenciasProvider>,
+    )
+    expect(screen.getByTestId('tema')).toHaveTextContent('sistema')
+    unmount()
+
+    const getItem = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('bloqueado')
+    })
+    render(
+      <PreferenciasProvider>
+        <Leitor />
+      </PreferenciasProvider>,
+    )
+    expect(screen.getByTestId('tema')).toHaveTextContent('sistema')
+    getItem.mockRestore()
+  })
+})

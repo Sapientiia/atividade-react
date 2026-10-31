@@ -1,5 +1,7 @@
+import { useId, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icone from '../Icone/Icone.jsx'
+import { useToast } from '../../context/ToastContext.js'
 import estilos from './Layout.module.css'
 
 const COLUNAS = [
@@ -21,13 +23,58 @@ const COLUNAS = [
   },
 ]
 
+/** Faixa de newsletter: formulário controlado, validado pelo navegador; nada é enviado. */
+function Newsletter() {
+  const [email, setEmail] = useState('')
+  const { adicionarToast } = useToast()
+  const idCampo = useId()
+
+  function aoEnviar(evento) {
+    evento.preventDefault()
+    adicionarToast({ tipo: 'sucesso', mensagem: 'Inscrição realizada! Você receberá nossas ofertas.' })
+    setEmail('')
+  }
+
+  return (
+    <section className={estilos.newsletter} aria-labelledby="titulo-newsletter">
+      <div className={`container ${estilos.newsletterInterno}`}>
+        <div>
+          <h2 id="titulo-newsletter" className={estilos.newsletterTitulo}>
+            Receba nossas ofertas
+          </h2>
+          <p className={estilos.newsletterDescricao}>Cadastre seu e-mail e fique por dentro das novidades.</p>
+        </div>
+        <form className={estilos.newsletterForm} onSubmit={aoEnviar}>
+          <label htmlFor={idCampo} className="sr-only">
+            Seu e-mail
+          </label>
+          <input
+            id={idCampo}
+            type="email"
+            required
+            className={estilos.newsletterCampo}
+            placeholder="Seu e-mail"
+            value={email}
+            onChange={(evento) => setEmail(evento.target.value)}
+            autoComplete="email"
+          />
+          <button type="submit" className={estilos.newsletterBotao}>
+            Inscrever-se
+          </button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
 export default function Rodape() {
   return (
     <footer className={estilos.rodape}>
+      <Newsletter />
       <div className={`container ${estilos.rodapeInterno}`}>
         <div className={estilos.rodapeMarca}>
           <span className={estilos.marcaIcone}>
-            <Icone nome="raio" tamanho={18} espessura={2.5} />
+            <Icone nome="raio" tamanho={22} espessura={2} />
           </span>
           <div>
             <strong>Loja Aurora</strong>

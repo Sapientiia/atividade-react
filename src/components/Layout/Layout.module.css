@@ -2,7 +2,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow-x: clip; /* o hero usa 50vw para sangrar; evita rolagem horizontal com barra clássica */
+  overflow-x: clip;
 }
 
 .pularLink {
@@ -11,26 +11,24 @@
   left: var(--espaco-3);
   z-index: 2000;
   padding: var(--espaco-2) var(--espaco-3);
-  border-radius: var(--raio);
+  border-radius: var(--raio-sm);
   background: var(--cor-primaria);
   color: var(--cor-primaria-texto);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .pularLink:focus {
   top: var(--espaco-3);
 }
 
-/* Cabeçalho --------------------------------------------------------------- */
+/* Cabeçalho: padrão .header-nav do tema (branco, borda inferior clara, ícones 24px). */
 
 .cabecalho {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: color-mix(in srgb, var(--cor-superficie) 86%, transparent);
-  backdrop-filter: saturate(160%) blur(12px);
-  -webkit-backdrop-filter: saturate(160%) blur(12px);
-  border-bottom: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda-suave);
 }
 
 /* Celular: marca e ações na primeira linha, navegação na segunda. */
@@ -51,12 +49,23 @@
   display: inline-flex;
   align-items: center;
   gap: var(--espaco-2);
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--cor-texto);
+  min-width: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--cor-texto-forte);
   text-decoration: none;
   white-space: nowrap;
+}
+
+.marca:hover {
+  color: var(--cor-texto-forte);
+}
+
+.marcaTexto {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Em telas muito estreitas (< 360px) só o ícone da marca aparece; o link mantém aria-label. */
@@ -70,12 +79,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: var(--gradiente-marca);
-  color: #fff;
-  box-shadow: var(--sombra-1);
+  color: var(--cor-primaria);
   flex-shrink: 0;
 }
 
@@ -92,33 +96,42 @@
   list-style: none;
 }
 
+/* Links no padrão .nav-link: peso 500, cor escura, ativo em teal com sublinhado. */
 .link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 40px;
   padding: 0 var(--espaco-2);
-  border-radius: var(--raio-pilula);
-  color: var(--cor-texto-suave);
-  font-weight: 600;
-  font-size: 0.95rem;
+  color: var(--cor-escuro);
+  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color var(--transicao), color var(--transicao);
+  transition: color var(--transicao);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: var(--espaco-2);
+  right: var(--espaco-2);
+  bottom: 4px;
+  height: 2px;
+  background: transparent;
+  transition: background-color var(--transicao);
 }
 
 .link:hover {
-  background: var(--cor-superficie-alt);
-  color: var(--cor-texto);
+  color: var(--cor-link-hover);
 }
 
-.linkAtivo {
-  background: var(--cor-primaria-suave);
-  color: var(--cor-primaria);
-}
-
+.linkAtivo,
 .linkAtivo:hover {
-  background: var(--cor-primaria-suave);
   color: var(--cor-primaria);
+}
+
+.linkAtivo::after {
+  background: var(--cor-primaria);
 }
 
 .acoes {
@@ -134,34 +147,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio);
-  background: var(--cor-superficie);
-  color: var(--cor-texto);
-  transition: background-color var(--transicao);
+  width: 42px;
+  height: 42px;
+  color: var(--cor-texto-forte);
+  border-radius: var(--raio-sm);
 }
 
 .carrinho:hover {
-  background: var(--cor-superficie-alt);
+  color: var(--cor-link-hover);
 }
 
+/* .qty-indicator do tema: círculo de 18px em teal com texto branco de 12px. */
 .carrinhoContador {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: var(--raio-pilula);
-  background: var(--cor-acento);
-  color: #1f1300;
-  font-size: 0.72rem;
-  font-weight: 800;
-  line-height: 20px;
-  text-align: center;
-  box-shadow: 0 0 0 2px var(--cor-superficie);
+  top: 2px;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 100%;
+  background: var(--cor-primaria);
+  color: var(--cor-primaria-texto);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
 }
 
 /* Desktop: marca, navegação e ações em uma única linha. */
@@ -173,8 +185,17 @@
     padding-bottom: var(--espaco-3);
   }
 
+  .marca {
+    font-size: 1.35rem;
+  }
+
   .link {
     padding: 0 var(--espaco-3);
+  }
+
+  .link::after {
+    left: var(--espaco-3);
+    right: var(--espaco-3);
   }
 
   .listaLinks {
@@ -186,27 +207,91 @@
 
 .conteudo {
   flex: 1;
-  scroll-margin-top: 120px; /* altura do cabeçalho fixo, para o link "Pular para o conteúdo" */
+  scroll-margin-top: 120px;
   padding-top: var(--espaco-4);
-  padding-bottom: var(--espaco-6);
+  padding-bottom: var(--espaco-5);
 }
 
 .conteudo:focus {
   outline: none;
 }
 
-@media (min-width: 900px) {
-  .conteudo {
-    padding-top: var(--espaco-5);
-  }
-}
-
-/* Rodapé ------------------------------------------------------------------ */
+/* Rodapé: faixa de newsletter em teal e listas de links horizontais, como no tema. */
 
 .rodape {
-  background: var(--cor-superficie);
-  border-top: 1px solid var(--cor-borda);
-  font-size: 0.92rem;
+  margin-top: var(--espaco-3);
+  font-size: 0.875rem;
+}
+
+.newsletter {
+  background: var(--cor-primaria);
+  color: #fff;
+  padding: var(--espaco-5) 0;
+}
+
+:root[data-tema='escuro'] .newsletter {
+  background: #2d3133;
+}
+
+.newsletterInterno {
+  display: grid;
+  gap: var(--espaco-3);
+  align-items: center;
+}
+
+.newsletterTitulo {
+  margin: 0 0 var(--espaco-1);
+  color: #fff;
+  font-size: clamp(1.5rem, 2vw + 1rem, 2.75rem);
+  font-weight: 700;
+}
+
+.newsletterDescricao {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.newsletterForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+}
+
+.newsletterCampo {
+  flex: 1 1 220px;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 2px solid #fff;
+  border-radius: var(--raio-sm);
+  background: transparent;
+  color: #fff;
+  font: inherit;
+}
+
+.newsletterCampo::placeholder {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.newsletterBotao {
+  min-height: 48px;
+  padding: 0 var(--espaco-4);
+  border: 2px solid #fff;
+  border-radius: var(--raio-sm);
+  background: transparent;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.newsletterBotao:hover {
+  background: #fff;
+  color: var(--cor-primaria);
+}
+
+.newsletter :focus-visible {
+  outline-color: #fff;
 }
 
 .rodapeInterno {
@@ -226,6 +311,8 @@
 .rodapeMarca strong {
   display: block;
   font-size: 1.05rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .rodapeMarca p {
@@ -234,52 +321,58 @@
 
 .rodapeTitulo {
   margin: 0 0 var(--espaco-2);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--cor-texto-fraco);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--cor-texto-forte);
 }
 
 .rodapeLista {
   display: grid;
-  gap: var(--espaco-2);
+  gap: 2px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .rodapeLista a {
+  display: inline-block;
+  padding: 6px 0;
   color: var(--cor-texto-suave);
+  font-size: 13px;
   text-decoration: none;
 }
 
 .rodapeLista a:hover {
-  color: var(--cor-primaria);
-  text-decoration: underline;
+  color: var(--cor-link-hover);
 }
 
 .rodapeGarantias li {
   display: flex;
   align-items: center;
   gap: var(--espaco-2);
+  padding: 6px 0;
   color: var(--cor-texto-suave);
+  font-size: 13px;
 }
 
 .rodapeBase {
   padding-top: var(--espaco-3);
   padding-bottom: var(--espaco-3);
-  border-top: 1px solid var(--cor-borda);
+  border-top: 1px solid var(--cor-borda-suave);
 }
 
 .rodapeBase p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 13px;
 }
 
 @media (min-width: 600px) {
   .rodapeInterno {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .newsletterInterno {
+    grid-template-columns: 1.2fr 1fr;
   }
 }
 

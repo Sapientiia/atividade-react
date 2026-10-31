@@ -96,17 +96,24 @@ Cada componente fica em sua própria pasta com o arquivo `.jsx`, um
 
 ## Visual
 
-- Tokens de design em `src/index.css` (cores, raios, sombras, espaçamentos) com tema claro,
-  escuro e automático (segue o sistema operacional).
+A linguagem visual segue a de um tema de loja virtual real: fonte **Poppins** (Google Fonts),
+fundo branco, texto cinza-escuro (`#212529`/`#333`/`#666`), acento teal (`#0E606C`, links
+`#0C5D6A`), bordas finas (`#ddd`/`#efefef`) e cantos de 6px. Botões seguem o padrão
+Bootstrap (peso 500, raio 4px); as abas têm sublinhado teal; a paginação usa fundo cinza
+com a página atual em teal; os cartões de produto são planos, com imagem quadrada sobre
+`#F8F9FB` e botão em caixa alta. Há um tema escuro (`#363c40`) e a opção automática
+(segue o sistema). A escolha fica salva no `localStorage`.
+
+- Tokens em `src/index.css`; nenhuma biblioteca de UI.
 - Ícones SVG inline em `src/components/Icone/Icone.jsx`, decorativos por padrão.
-- Imagens de produto geradas por gradiente + ícone da categoria, sem arquivos externos.
-- Esqueleto de carregamento ao trocar filtro ou ordenação, animações de entrada por rota e
-  elevação nos cartões, todas desligadas com `prefers-reduced-motion`.
+- Imagens de produto são o ícone da categoria sobre fundo cinza claro, sem arquivos externos.
+- Esqueleto de carregamento ao trocar filtro ou ordenação e transição discreta por rota,
+  desligados com `prefers-reduced-motion`.
 
 ## Responsividade
 
 Breakpoints definidos em CSS: celular (até 599px), tablet (600–899px) e desktop (900px+).
-As grades de cartões passam de 1 para 2 e depois 3 colunas; o cabeçalho reorganiza a
+A grade de produtos tem 2 colunas no celular, 3 no tablet e 4 no desktop; o cabeçalho reorganiza a
 navegação em uma segunda linha no celular; o detalhe do produto e o carrinho passam de
 uma para duas colunas; a Paginação mostra apenas setas em telas pequenas; os toasts
 ocupam a largura da tela no celular e o canto inferior direito no desktop.

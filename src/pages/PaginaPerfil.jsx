@@ -121,7 +121,7 @@ export default function PaginaPerfil() {
           <h1 className={estilos.perfilNome}>Cliente de Exemplo</h1>
           <p className="texto-suave">Cliente desde março de 2024 · 3 pedidos</p>
         </div>
-        <span className="etiqueta etiqueta--acento">
+        <span className="etiqueta etiqueta--primaria">
           <Icone nome="estrela" tamanho={14} /> Cliente ouro
         </span>
       </section>

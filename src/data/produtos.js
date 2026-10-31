@@ -1,12 +1,12 @@
 /** Catálogo fictício usado para demonstrar Paginação, Menu Suspenso (filtro), Abas e carrinho. */
 export const CATEGORIAS = ['Eletrônicos', 'Livros', 'Casa', 'Esportes']
 
-/** Ícone e cores ilustrativas de cada categoria (substituem fotos de produto). */
+/** Ícone e cor de traço de cada categoria (substituem fotos de produto sobre fundo cinza claro). */
 export const ESTILO_CATEGORIA = {
-  Eletrônicos: { icone: 'fone', de: '#2f5be8', para: '#6d4df2' },
-  Livros: { icone: 'livro', de: '#d97706', para: '#f59e0b' },
-  Casa: { icone: 'lampada', de: '#0f766e', para: '#14b8a6' },
-  Esportes: { icone: 'halter', de: '#be123c', para: '#f43f5e' },
+  Eletrônicos: { icone: 'fone', cor: '#0e606c' },
+  Livros: { icone: 'livro', cor: '#8a5a00' },
+  Casa: { icone: 'lampada', cor: '#2d6a4f' },
+  Esportes: { icone: 'halter', cor: '#9b2226' },
 }
 
 const p = (id, nome, categoria, preco, extras = {}) => ({

@@ -41,7 +41,7 @@ export default function Cabecalho() {
       <div className={`container ${estilos.cabecalhoInterno}`}>
         <Link to="/" className={estilos.marca} aria-label="Loja Aurora, página inicial">
           <span className={estilos.marcaIcone}>
-            <Icone nome="raio" tamanho={18} espessura={2.5} />
+            <Icone nome="raio" tamanho={24} espessura={2} />
           </span>
           <span className={estilos.marcaTexto}>Loja Aurora</span>
         </Link>
@@ -72,7 +72,7 @@ export default function Cabecalho() {
             alinhamento="direita"
           />
           <Link to="/carrinho" className={estilos.carrinho} aria-label={`Carrinho, ${quantidadeTotal} item(ns)`}>
-            <Icone nome="carrinho" tamanho={20} />
+            <Icone nome="carrinho" tamanho={24} espessura={1.75} />
             {quantidadeTotal > 0 && (
               <span className={estilos.carrinhoContador} data-testid="contador-carrinho">
                 {quantidadeTotal}

@@ -1,9 +1,17 @@
+/* Padrão .product-box do tema: sem borda, imagem quadrada sobre cinza claro,
+   título 16px peso 500, moldura com sombra ao passar o mouse. */
 .cartao {
   position: relative;
   display: flex;
   flex-direction: column;
   padding: 0;
-  overflow: hidden;
+  border-color: transparent;
+  overflow: visible;
+}
+
+.cartao:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .linkImagem {
@@ -14,47 +22,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1;
   width: 100%;
-  color: rgba(255, 255, 255, 0.92);
-  border-radius: 0;
+  background: var(--cor-imagem-fundo);
+  border-radius: var(--raio) var(--raio) 0 0;
 }
 
 .destaque {
   position: absolute;
-  top: var(--espaco-2);
-  left: var(--espaco-2);
-  box-shadow: var(--sombra-1);
+  top: 10px;
+  right: 10px;
 }
 
 .corpo {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: var(--espaco-1);
-  padding: var(--espaco-3);
-  font-size: 0.85rem;
+  gap: 6px;
+  padding: 10px 12px 12px;
+  font-size: 0.8rem;
 }
 
 .nome {
   margin: 0;
   font-size: 1rem;
+  font-weight: 500;
   line-height: 1.3;
 }
 
 .nome a {
   color: var(--cor-texto);
-  text-decoration: none;
 }
 
 .nome a:hover {
-  color: var(--cor-primaria);
+  color: var(--cor-link-hover);
 }
 
 .estrelas {
   display: inline-flex;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   color: var(--cor-acento);
 }
 
@@ -63,33 +70,47 @@
 }
 
 .estrelaVazia {
-  color: var(--cor-borda-forte);
+  color: var(--cor-borda);
 }
 
 .estrelasTotal {
   margin-left: var(--espaco-1);
-  color: var(--cor-texto-fraco);
+  color: var(--cor-texto);
   font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .precos {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--espaco-2);
-  margin-top: var(--espaco-1);
+  gap: 0 var(--espaco-2);
 }
 
 .preco {
-  font-size: 1.2rem;
-  font-weight: 800;
+  font-size: 1.125rem;
+  font-weight: 600;
   color: var(--cor-texto);
 }
 
 .precoAntigo {
   color: var(--cor-texto-fraco);
+  font-size: 0.9rem;
 }
 
+/* Botão de ação do product-box: caixa alta, largura total, sem raio inferior. */
 .botaoAdicionar {
   margin-top: auto;
   width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--cor-escuro);
+  border-color: var(--cor-escuro);
+  color: var(--cor-fundo);
+}
+
+.botaoAdicionar:hover {
+  background: var(--cor-escuro-hover);
+  border-color: var(--cor-escuro-hover);
+  color: var(--cor-fundo);
 }
