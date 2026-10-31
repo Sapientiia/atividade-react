@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
+import Icone from '../Icone/Icone.jsx'
 import estilos from './Toast.module.css'
 
 const ICONES = {
-  sucesso: '✔',
-  erro: '✖',
-  info: 'ℹ',
+  sucesso: 'check',
+  erro: 'alerta',
+  info: 'info',
 }
 
 /**
@@ -33,7 +34,7 @@ export default function Toast({ id, tipo = 'info', mensagem, duracao = 4000, aoF
   return (
     <div className={`${estilos.toast} ${estilos[tipoSeguro]}`} role={papel} data-testid="toast">
       <span className={estilos.icone} aria-hidden="true">
-        {ICONES[tipoSeguro]}
+        <Icone nome={ICONES[tipoSeguro]} tamanho={16} espessura={2.5} />
       </span>
       <p className={estilos.mensagem}>{mensagem}</p>
       <button
@@ -42,7 +43,7 @@ export default function Toast({ id, tipo = 'info', mensagem, duracao = 4000, aoF
         onClick={() => aoFechar(id)}
         aria-label="Fechar notificação"
       >
-        ×
+        <Icone nome="x" tamanho={18} />
       </button>
     </div>
   )

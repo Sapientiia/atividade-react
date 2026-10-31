@@ -17,10 +17,11 @@
   gap: var(--espaco-2);
   padding: var(--espaco-2) var(--espaco-3);
   border-radius: var(--raio);
-  border-left: 6px solid var(--cor-destaque, var(--cor-info));
+  border: 1px solid var(--cor-borda);
+  border-left: 5px solid var(--cor-destaque, var(--cor-info));
   background: var(--cor-superficie);
   color: var(--cor-texto);
-  box-shadow: var(--sombra);
+  box-shadow: var(--sombra-2);
   pointer-events: auto;
   animation: entrar 0.25s ease-out;
 }
@@ -55,14 +56,15 @@
 }
 
 .fechar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 36px;
   min-height: 36px;
   border: 0;
   border-radius: 50%;
   background: transparent;
   color: var(--cor-texto-suave);
-  font-size: 1.4rem;
-  line-height: 1;
   cursor: pointer;
 }
 

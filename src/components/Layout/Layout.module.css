@@ -1,7 +1,8 @@
 .pagina {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip; /* o hero usa 50vw para sangrar; evita rolagem horizontal com barra clássica */
 }
 
 .pularLink {
@@ -26,15 +27,16 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--cor-superficie);
+  background: color-mix(in srgb, var(--cor-superficie) 86%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
   border-bottom: 1px solid var(--cor-borda);
-  box-shadow: var(--sombra);
 }
 
-/* Celular: marca e tema na primeira linha, navegação rolável na segunda. */
+/* Celular: marca e ações na primeira linha, navegação na segunda. */
 .cabecalhoInterno {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
     'marca acoes'
     'nav nav';
@@ -46,17 +48,39 @@
 
 .marca {
   grid-area: marca;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
   font-size: 1.15rem;
   font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--cor-texto);
   text-decoration: none;
   white-space: nowrap;
 }
 
+/* Em telas muito estreitas (< 360px) só o ícone da marca aparece; o link mantém aria-label. */
+@media (max-width: 359px) {
+  .marcaTexto {
+    display: none;
+  }
+}
+
+.marcaIcone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--gradiente-marca);
+  color: #fff;
+  box-shadow: var(--sombra-1);
+  flex-shrink: 0;
+}
+
 .navegacao {
   grid-area: nav;
-  overflow-x: auto;
-  scrollbar-width: thin;
 }
 
 .listaLinks {
@@ -71,13 +95,15 @@
 .link {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 38px;
   padding: 0 var(--espaco-2);
-  border-radius: var(--raio);
+  border-radius: var(--raio-pilula);
   color: var(--cor-texto-suave);
   font-weight: 600;
+  font-size: 0.95rem;
   text-decoration: none;
   white-space: nowrap;
+  transition: background-color var(--transicao), color var(--transicao);
 }
 
 .link:hover {
@@ -86,18 +112,56 @@
 }
 
 .linkAtivo {
-  background: var(--cor-primaria);
-  color: var(--cor-primaria-texto);
+  background: var(--cor-primaria-suave);
+  color: var(--cor-primaria);
 }
 
 .linkAtivo:hover {
-  background: var(--cor-primaria-escura);
-  color: var(--cor-primaria-texto);
+  background: var(--cor-primaria-suave);
+  color: var(--cor-primaria);
 }
 
 .acoes {
   grid-area: acoes;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+}
+
+.carrinho {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  transition: background-color var(--transicao);
+}
+
+.carrinho:hover {
+  background: var(--cor-superficie-alt);
+}
+
+.carrinhoContador {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--raio-pilula);
+  background: var(--cor-acento);
+  color: #1f1300;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+  box-shadow: 0 0 0 2px var(--cor-superficie);
 }
 
 /* Desktop: marca, navegação e ações em uma única linha. */
@@ -105,6 +169,8 @@
   .cabecalhoInterno {
     grid-template-columns: auto 1fr auto;
     grid-template-areas: 'marca nav acoes';
+    padding-top: var(--espaco-3);
+    padding-bottom: var(--espaco-3);
   }
 
   .link {
@@ -116,25 +182,109 @@
   }
 }
 
-/* Conteúdo e rodapé --------------------------------------------------------- */
+/* Conteúdo ---------------------------------------------------------------- */
 
 .conteudo {
   flex: 1;
   scroll-margin-top: 120px; /* altura do cabeçalho fixo, para o link "Pular para o conteúdo" */
   padding-top: var(--espaco-4);
-  padding-bottom: var(--espaco-5);
+  padding-bottom: var(--espaco-6);
 }
 
 .conteudo:focus {
   outline: none;
 }
 
-.rodape {
-  padding: var(--espaco-4) 0;
-  border-top: 1px solid var(--cor-borda);
-  font-size: 0.9rem;
+@media (min-width: 900px) {
+  .conteudo {
+    padding-top: var(--espaco-5);
+  }
 }
 
-.rodape p {
+/* Rodapé ------------------------------------------------------------------ */
+
+.rodape {
+  background: var(--cor-superficie);
+  border-top: 1px solid var(--cor-borda);
+  font-size: 0.92rem;
+}
+
+.rodapeInterno {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-4);
+  padding-top: var(--espaco-5);
+  padding-bottom: var(--espaco-4);
+}
+
+.rodapeMarca {
+  display: flex;
+  gap: var(--espaco-2);
+  align-items: flex-start;
+}
+
+.rodapeMarca strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.rodapeMarca p {
+  margin: var(--espaco-1) 0 0;
+}
+
+.rodapeTitulo {
+  margin: 0 0 var(--espaco-2);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cor-texto-fraco);
+}
+
+.rodapeLista {
+  display: grid;
+  gap: var(--espaco-2);
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rodapeLista a {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+}
+
+.rodapeLista a:hover {
+  color: var(--cor-primaria);
+  text-decoration: underline;
+}
+
+.rodapeGarantias li {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  color: var(--cor-texto-suave);
+}
+
+.rodapeBase {
+  padding-top: var(--espaco-3);
+  padding-bottom: var(--espaco-3);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.rodapeBase p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 600px) {
+  .rodapeInterno {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .rodapeInterno {
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  }
 }

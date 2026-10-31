@@ -1,28 +1,72 @@
-/** Catálogo fictício usado para demonstrar Paginação e Menu Suspenso (filtro). */
+/** Catálogo fictício usado para demonstrar Paginação, Menu Suspenso (filtro), Abas e carrinho. */
 export const CATEGORIAS = ['Eletrônicos', 'Livros', 'Casa', 'Esportes']
 
+/** Ícone e cores ilustrativas de cada categoria (substituem fotos de produto). */
+export const ESTILO_CATEGORIA = {
+  Eletrônicos: { icone: 'fone', de: '#2f5be8', para: '#6d4df2' },
+  Livros: { icone: 'livro', de: '#d97706', para: '#f59e0b' },
+  Casa: { icone: 'lampada', de: '#0f766e', para: '#14b8a6' },
+  Esportes: { icone: 'halter', de: '#be123c', para: '#f43f5e' },
+}
+
+const p = (id, nome, categoria, preco, extras = {}) => ({
+  id,
+  nome,
+  categoria,
+  preco,
+  avaliacao: extras.avaliacao ?? 4,
+  avaliacoes: extras.avaliacoes ?? 12,
+  destaque: extras.destaque ?? null,
+  precoAntigo: extras.precoAntigo ?? null,
+  descricao:
+    extras.descricao ??
+    `${nome} com acabamento premium e garantia de 12 meses. Produto fictício criado para demonstrar os componentes desta aplicação.`,
+  especificacoes: extras.especificacoes ?? [
+    ['Garantia', '12 meses'],
+    ['Origem', 'Nacional'],
+    ['Peso', '0,5 kg'],
+  ],
+})
+
 export const produtos = [
-  { id: 1, nome: 'Fone de ouvido sem fio', categoria: 'Eletrônicos', preco: 249.9 },
-  { id: 2, nome: 'Teclado mecânico compacto', categoria: 'Eletrônicos', preco: 389.0 },
-  { id: 3, nome: 'Mouse ergonômico', categoria: 'Eletrônicos', preco: 159.9 },
-  { id: 4, nome: 'Carregador portátil 10.000 mAh', categoria: 'Eletrônicos', preco: 129.0 },
-  { id: 5, nome: 'Caixa de som Bluetooth', categoria: 'Eletrônicos', preco: 199.9 },
-  { id: 6, nome: 'Smartwatch esportivo', categoria: 'Eletrônicos', preco: 599.0 },
-  { id: 7, nome: 'Código Limpo', categoria: 'Livros', preco: 89.9 },
-  { id: 8, nome: 'Engenharia de Software Moderna', categoria: 'Livros', preco: 119.0 },
-  { id: 9, nome: 'Padrões de Projeto', categoria: 'Livros', preco: 139.9 },
-  { id: 10, nome: 'Refatoração', categoria: 'Livros', preco: 109.0 },
-  { id: 11, nome: 'Arquitetura Limpa', categoria: 'Livros', preco: 99.9 },
-  { id: 12, nome: 'Luminária de mesa LED', categoria: 'Casa', preco: 79.9 },
-  { id: 13, nome: 'Cadeira de escritório', categoria: 'Casa', preco: 849.0 },
-  { id: 14, nome: 'Organizador de cabos', categoria: 'Casa', preco: 29.9 },
-  { id: 15, nome: 'Garrafa térmica 1 L', categoria: 'Casa', preco: 69.9 },
-  { id: 16, nome: 'Suporte para notebook', categoria: 'Casa', preco: 99.0 },
-  { id: 17, nome: 'Tapete de yoga', categoria: 'Esportes', preco: 89.0 },
-  { id: 18, nome: 'Corda de pular', categoria: 'Esportes', preco: 39.9 },
-  { id: 19, nome: 'Halteres 5 kg (par)', categoria: 'Esportes', preco: 149.0 },
-  { id: 20, nome: 'Bola de futebol', categoria: 'Esportes', preco: 119.9 },
-  { id: 21, nome: 'Tênis de corrida', categoria: 'Esportes', preco: 329.0 },
-  { id: 22, nome: 'Mochila esportiva', categoria: 'Esportes', preco: 159.0 },
-  { id: 23, nome: 'Garrafa squeeze 750 ml', categoria: 'Esportes', preco: 34.9 },
+  p(1, 'Fone de ouvido sem fio', 'Eletrônicos', 249.9, {
+    avaliacao: 5,
+    avaliacoes: 128,
+    destaque: 'oferta',
+    precoAntigo: 329.9,
+    descricao: 'Cancelamento ativo de ruído, 30 horas de bateria e estojo com carregamento rápido.',
+    especificacoes: [
+      ['Bluetooth', '5.3'],
+      ['Bateria', '30 h'],
+      ['Peso', '240 g'],
+    ],
+  }),
+  p(2, 'Teclado mecânico compacto', 'Eletrônicos', 389.0, { avaliacao: 5, avaliacoes: 86, destaque: 'novo' }),
+  p(3, 'Mouse ergonômico', 'Eletrônicos', 159.9, { avaliacoes: 54 }),
+  p(4, 'Carregador portátil 10.000 mAh', 'Eletrônicos', 129.0, { avaliacoes: 203 }),
+  p(5, 'Caixa de som Bluetooth', 'Eletrônicos', 199.9, { destaque: 'oferta', precoAntigo: 259.9, avaliacoes: 77 }),
+  p(6, 'Smartwatch esportivo', 'Eletrônicos', 599.0, { avaliacao: 4, avaliacoes: 45, destaque: 'novo' }),
+  p(7, 'Código Limpo', 'Livros', 89.9, { avaliacao: 5, avaliacoes: 412 }),
+  p(8, 'Engenharia de Software Moderna', 'Livros', 119.0, { avaliacao: 5, avaliacoes: 98 }),
+  p(9, 'Padrões de Projeto', 'Livros', 139.9, { avaliacoes: 150 }),
+  p(10, 'Refatoração', 'Livros', 109.0, { avaliacao: 5, avaliacoes: 210, destaque: 'oferta', precoAntigo: 139.0 }),
+  p(11, 'Arquitetura Limpa', 'Livros', 99.9, { avaliacoes: 180 }),
+  p(12, 'Luminária de mesa LED', 'Casa', 79.9, { avaliacoes: 64, destaque: 'novo' }),
+  p(13, 'Cadeira de escritório', 'Casa', 849.0, { avaliacao: 4, avaliacoes: 39 }),
+  p(14, 'Organizador de cabos', 'Casa', 29.9, { avaliacao: 3, avaliacoes: 22 }),
+  p(15, 'Garrafa térmica 1 L', 'Casa', 69.9, { avaliacoes: 91 }),
+  p(16, 'Suporte para notebook', 'Casa', 99.0, { avaliacao: 5, avaliacoes: 133, destaque: 'oferta', precoAntigo: 129.0 }),
+  p(17, 'Tapete de yoga', 'Esportes', 89.0, { avaliacoes: 58 }),
+  p(18, 'Corda de pular', 'Esportes', 39.9, { avaliacao: 4, avaliacoes: 31 }),
+  p(19, 'Halteres 5 kg (par)', 'Esportes', 149.0, { avaliacoes: 47 }),
+  p(20, 'Bola de futebol', 'Esportes', 119.9, { avaliacao: 5, avaliacoes: 72, destaque: 'novo' }),
+  p(21, 'Tênis de corrida', 'Esportes', 329.0, { avaliacao: 5, avaliacoes: 164 }),
+  p(22, 'Mochila esportiva', 'Esportes', 159.0, { avaliacoes: 40 }),
+  p(23, 'Garrafa squeeze 750 ml', 'Esportes', 34.9, { avaliacao: 3, avaliacoes: 19 }),
 ]
+
+export const formatadorMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+
+export function buscarProduto(id) {
+  return produtos.find((produto) => produto.id === Number(id)) ?? null
+}

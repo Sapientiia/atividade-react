@@ -1,0 +1,95 @@
+.cartao {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.linkImagem {
+  display: block;
+}
+
+.imagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 0;
+}
+
+.destaque {
+  position: absolute;
+  top: var(--espaco-2);
+  left: var(--espaco-2);
+  box-shadow: var(--sombra-1);
+}
+
+.corpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  padding: var(--espaco-3);
+  font-size: 0.85rem;
+}
+
+.nome {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.nome a {
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.nome a:hover {
+  color: var(--cor-primaria);
+}
+
+.estrelas {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: var(--cor-acento);
+}
+
+.estrelaCheia {
+  fill: currentColor;
+}
+
+.estrelaVazia {
+  color: var(--cor-borda-forte);
+}
+
+.estrelasTotal {
+  margin-left: var(--espaco-1);
+  color: var(--cor-texto-fraco);
+  font-size: 0.8rem;
+}
+
+.precos {
+  display: flex;
+  align-items: baseline;
+  gap: var(--espaco-2);
+  margin-top: var(--espaco-1);
+}
+
+.preco {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--cor-texto);
+}
+
+.precoAntigo {
+  color: var(--cor-texto-fraco);
+}
+
+.botaoAdicionar {
+  margin-top: auto;
+  width: 100%;
+}

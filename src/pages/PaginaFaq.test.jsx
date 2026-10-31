@@ -1,12 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
+import ToastProvider from '../context/ToastProvider.jsx'
 import { perguntasFrequentes } from '../data/faq.js'
 import PaginaFaq from './PaginaFaq.jsx'
 
+const renderizar = () =>
+  render(
+    <ToastProvider>
+      <PaginaFaq />
+    </ToastProvider>,
+  )
+
 describe('PaginaFaq', () => {
   it('lista todas as perguntas do FAQ', () => {
-    render(<PaginaFaq />)
+    renderizar()
     perguntasFrequentes.forEach((pergunta) => {
       expect(screen.getByRole('button', { name: pergunta.titulo })).toBeInTheDocument()
     })
@@ -14,7 +22,7 @@ describe('PaginaFaq', () => {
 
   it('alterna entre "uma por vez" e "várias abertas" pela caixa de seleção', async () => {
     const usuario = userEvent.setup()
-    render(<PaginaFaq />)
+    renderizar()
     const [primeira, segunda] = perguntasFrequentes
 
     await usuario.click(screen.getByRole('button', { name: primeira.titulo }))

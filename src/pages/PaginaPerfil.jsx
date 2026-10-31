@@ -1,8 +1,16 @@
+import Icone from '../components/Icone/Icone.jsx'
 import Tabs from '../components/Tabs/Tabs.jsx'
 import { usePreferencias } from '../context/PreferenciasContext.js'
 import estilos from './Paginas.module.css'
 
 const NOMES_TEMA = { claro: 'Claro', escuro: 'Escuro', sistema: 'Automático (sistema)' }
+const STATUS_PEDIDO = { Entregue: 'etiqueta--sucesso', 'Em transporte': 'etiqueta--primaria' }
+
+const PEDIDOS = [
+  { numero: '#1042', item: 'Teclado mecânico compacto', data: '12/10/2026', status: 'Entregue', valor: 'R$ 389,00' },
+  { numero: '#1038', item: 'Código Limpo', data: '20/10/2026', status: 'Em transporte', valor: 'R$ 89,90' },
+  { numero: '#1031', item: 'Tapete de yoga', data: '02/09/2026', status: 'Entregue', valor: 'R$ 89,00' },
+]
 
 /** Conteúdo da aba de preferências: lê o tema do contexto global, sem relação direta com o cabeçalho. */
 function PainelPreferencias() {
@@ -12,16 +20,21 @@ function PainelPreferencias() {
     <>
       <h2>Preferências</h2>
       <dl className={estilos.listaDefinicoes}>
-        <dt>Tema escolhido</dt>
-        <dd>{NOMES_TEMA[tema]}</dd>
-        <dt>Tema em uso</dt>
-        <dd>{NOMES_TEMA[temaEfetivo]}</dd>
+        <div className={estilos.definicao}>
+          <dt>Tema escolhido</dt>
+          <dd>{NOMES_TEMA[tema]}</dd>
+        </div>
+        <div className={estilos.definicao}>
+          <dt>Tema em uso</dt>
+          <dd>{NOMES_TEMA[temaEfetivo]}</dd>
+        </div>
       </dl>
       <button
         type="button"
         className="botao botao--secundario"
         onClick={() => setTema(temaEfetivo === 'escuro' ? 'claro' : 'escuro')}
       >
+        <Icone nome={temaEfetivo === 'escuro' ? 'sol' : 'lua'} tamanho={18} />
         Alternar para tema {temaEfetivo === 'escuro' ? 'claro' : 'escuro'}
       </button>
     </>
@@ -36,12 +49,18 @@ const ABAS = [
       <>
         <h2>Dados pessoais</h2>
         <dl className={estilos.listaDefinicoes}>
-          <dt>Nome</dt>
-          <dd>Cliente de Exemplo</dd>
-          <dt>E-mail</dt>
-          <dd>cliente@exemplo.com</dd>
-          <dt>Cliente desde</dt>
-          <dd>Março de 2024</dd>
+          <div className={estilos.definicao}>
+            <dt>Nome</dt>
+            <dd>Cliente de Exemplo</dd>
+          </div>
+          <div className={estilos.definicao}>
+            <dt>E-mail</dt>
+            <dd>cliente@exemplo.com</dd>
+          </div>
+          <div className={estilos.definicao}>
+            <dt>Cliente desde</dt>
+            <dd>Março de 2024</dd>
+          </div>
         </dl>
       </>
     ),
@@ -66,10 +85,19 @@ const ABAS = [
     conteudo: (
       <>
         <h2>Últimos pedidos</h2>
-        <ul>
-          <li>#1042 — Teclado mecânico compacto — Entregue</li>
-          <li>#1038 — Código Limpo — Em transporte</li>
-          <li>#1031 — Tapete de yoga — Entregue</li>
+        <ul className={estilos.listaPedidos}>
+          {PEDIDOS.map((pedido) => (
+            <li key={pedido.numero}>
+              <div>
+                <strong>
+                  {pedido.numero} · {pedido.item}
+                </strong>
+                <span className="texto-fraco">{pedido.data}</span>
+              </div>
+              <span className={`etiqueta ${STATUS_PEDIDO[pedido.status] ?? ''}`}>{pedido.status}</span>
+              <span className={estilos.itemPreco}>{pedido.valor}</span>
+            </li>
+          ))}
         </ul>
       </>
     ),
@@ -85,9 +113,21 @@ const ABAS = [
 export default function PaginaPerfil() {
   return (
     <>
-      <h1>Meu perfil</h1>
+      <section className={`cartao ${estilos.perfilCabecalho}`} aria-label="Resumo do cliente">
+        <span className={estilos.avatar} aria-hidden="true">
+          CE
+        </span>
+        <div>
+          <h1 className={estilos.perfilNome}>Cliente de Exemplo</h1>
+          <p className="texto-suave">Cliente desde março de 2024 · 3 pedidos</p>
+        </div>
+        <span className="etiqueta etiqueta--acento">
+          <Icone nome="estrela" tamanho={14} /> Cliente ouro
+        </span>
+      </section>
+
       <p className="texto-suave">Use as setas do teclado para navegar entre as abas.</p>
-      <Tabs abas={ABAS} abaInicialId="dados" />
+      <Tabs abas={ABAS} abaInicialId="dados" rotulo="Seções do perfil" />
     </>
   )
 }

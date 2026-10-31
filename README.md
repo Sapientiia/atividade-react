@@ -4,7 +4,10 @@ Aplicação web responsiva desenvolvida em **React.js** para a disciplina
 *Tópicos Avançados em Engenharia de Software* (UCSAL, 2026.2).
 Ela reúne os seis componentes visuais exigidos na atividade, cada um
 implementado como componente React próprio, além do desafio extra
-(**Context API** e **React Router**).
+(**Context API** e **React Router**), dentro de uma loja fictícia completa:
+catálogo com filtro e ordenação, página de detalhe do produto, carrinho com
+contador global, FAQ, perfil e upload simulado. Sem bibliotecas de UI: CSS
+Modules, tokens de design próprios e ícones SVG inline.
 
 ## Como executar
 
@@ -43,14 +46,18 @@ src/
 │   ├── Tabs/                   # Abas
 │   ├── Dropdown/               # Menu Suspenso
 │   ├── Toast/                  # Notificação Toast + ToastContainer
-│   └── Layout/                 # Cabeçalho, Rodapé e Layout (Outlet)
+│   ├── Icone/                  # ícones SVG inline (sem biblioteca)
+│   ├── Produto/                # CartaoProduto, ImagemProduto, Estrelas, EsqueletoProduto
+│   └── Layout/                 # Cabeçalho (nav + tema + carrinho), Rodapé e Layout (Outlet)
 ├── context/
 │   ├── ToastContext.js         # contexto + hook useToast
 │   ├── ToastProvider.jsx       # provider de notificações globais
 │   ├── PreferenciasContext.js  # contexto + hook usePreferencias
-│   └── PreferenciasProvider.jsx# provider do tema (claro/escuro/sistema)
-├── data/                       # conteúdo fictício (FAQ e produtos)
-└── pages/                      # uma página por rota
+│   ├── PreferenciasProvider.jsx# provider do tema (claro/escuro/sistema)
+│   ├── CarrinhoContext.js      # contexto + hook useCarrinho
+│   └── CarrinhoProvider.jsx    # provider do carrinho (itens, subtotal)
+├── data/                       # conteúdo fictício (FAQ e catálogo de produtos)
+└── pages/                      # uma página por rota (inclui detalhe do produto e carrinho)
 ```
 
 Cada componente fica em sua própria pasta com o arquivo `.jsx`, um
@@ -62,9 +69,9 @@ Cada componente fica em sua própria pasta com o arquivo `.jsx`, um
 |---|---|---|---|
 | `Accordion` | `/faq` | `itens`, `permitirMultiplos`, `abertoInicialId`, `nivelTitulo` | ids dos itens abertos |
 | `Pagination` | `/produtos` | `paginaAtual`, `totalPaginas`, `aoMudarPagina` | nenhum (controlado pelo pai) |
-| `ProgressBar` | `/upload` | `valor` (0–100), `rotulo`, `mostrarPercentual`, `cor` | nenhum (deriva de `valor`) |
-| `Tabs` | `/perfil` | `abas`, `abaInicialId`, `aoMudarAba`, `rotulo` | aba ativa |
-| `Dropdown` | cabeçalho e `/produtos` | `rotulo`, `opcoes`, `aoSelecionar`, `valorSelecionadoId` | aberto/fechado |
+| `ProgressBar` | `/upload` e `/carrinho` (meta de frete grátis) | `valor` (0–100), `rotulo`, `mostrarPercentual`, `cor` | nenhum (deriva de `valor`) |
+| `Tabs` | `/perfil` e `/produtos/:id` | `abas`, `abaInicialId`, `aoMudarAba`, `rotulo` | aba ativa |
+| `Dropdown` | cabeçalho (tema) e `/produtos` (categoria e ordem) | `rotulo`, `opcoes`, `aoSelecionar`, `valorSelecionadoId`, `icone` | aberto/fechado |
 | `Toast` | todas (via contexto) | `tipo`, `mensagem`, `duracao`, `aoFechar` | temporizador de fechamento |
 
 ## Conceitos de React demonstrados
@@ -80,17 +87,29 @@ Cada componente fica em sua própria pasta com o arquivo `.jsx`, um
 
 - **Context API**: `ToastProvider` permite que qualquer componente dispare notificações;
   `PreferenciasProvider` guarda o tema escolhido no Menu Suspenso do cabeçalho e o
-  disponibiliza para a aba "Preferências" da página de Perfil, que não tem relação direta
-  com o cabeçalho.
-- **React Router**: cinco rotas (`/`, `/faq`, `/produtos`, `/perfil`, `/upload`) mais uma
-  página 404, com layout compartilhado via `<Outlet>` e links ativos com `NavLink`.
+  disponibiliza para a aba "Preferências" da página de Perfil; `CarrinhoProvider` recebe
+  itens do catálogo e do detalhe do produto e alimenta o contador do cabeçalho e a página
+  do carrinho. Nenhum desses pares de componentes tem relação direta na árvore.
+- **React Router**: rotas `/`, `/produtos`, `/produtos/:id` (parâmetro de rota), `/carrinho`,
+  `/faq`, `/perfil`, `/upload` e página 404, com layout compartilhado via `<Outlet>`,
+  links ativos com `NavLink` e animação de entrada por rota.
+
+## Visual
+
+- Tokens de design em `src/index.css` (cores, raios, sombras, espaçamentos) com tema claro,
+  escuro e automático (segue o sistema operacional).
+- Ícones SVG inline em `src/components/Icone/Icone.jsx`, decorativos por padrão.
+- Imagens de produto geradas por gradiente + ícone da categoria, sem arquivos externos.
+- Esqueleto de carregamento ao trocar filtro ou ordenação, animações de entrada por rota e
+  elevação nos cartões, todas desligadas com `prefers-reduced-motion`.
 
 ## Responsividade
 
 Breakpoints definidos em CSS: celular (até 599px), tablet (600–899px) e desktop (900px+).
-As grades de cartões passam de 1 para 2 e depois 3–4 colunas; o cabeçalho reorganiza a
-navegação em uma segunda linha no celular; a Paginação mostra apenas setas em telas
-pequenas; os toasts ocupam a largura da tela no celular e o canto inferior direito no desktop.
+As grades de cartões passam de 1 para 2 e depois 3 colunas; o cabeçalho reorganiza a
+navegação em uma segunda linha no celular; o detalhe do produto e o carrinho passam de
+uma para duas colunas; a Paginação mostra apenas setas em telas pequenas; os toasts
+ocupam a largura da tela no celular e o canto inferior direito no desktop.
 
 ## Acessibilidade
 
@@ -106,9 +125,9 @@ pequenas; os toasts ocupam a largura da tela no celular e o canto inferior direi
 
 ## Testes
 
-A suíte cobre cada componente (caminho feliz, erro e casos de borda), os dois contextos,
-as páginas com lógica (Produtos, Upload, FAQ) e um teste de integração do `App`
-(navegação por rotas e compartilhamento de tema via contexto).
+A suíte cobre cada componente (caminho feliz, erro e casos de borda), os três contextos,
+as páginas com lógica (Produtos, Detalhe do produto, Upload, FAQ) e testes de integração
+do `App` (navegação por rotas, tema compartilhado via contexto e fluxo completo do carrinho).
 
 ```bash
 npm test

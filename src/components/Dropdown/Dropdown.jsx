@@ -10,6 +10,7 @@ import estilos from './Dropdown.module.css'
  * - aoSelecionar        : callback(opcao) geral, chamado para qualquer opção escolhida
  * - valorSelecionadoId  : id da opção atualmente escolhida (marca visual + aria-checked)
  * - alinhamento         : 'esquerda' | 'direita' (lado em que a lista abre)
+ * - icone               : nó opcional exibido antes do rótulo (decorativo)
  *
  * Visibilidade controlada por state. Fecha ao selecionar, ao clicar fora, com Escape ou ao sair com Tab.
  */
@@ -19,6 +20,7 @@ export default function Dropdown({
   aoSelecionar,
   valorSelecionadoId = null,
   alinhamento = 'esquerda',
+  icone = null,
 }) {
   const [aberto, setAberto] = useState(false)
   const envoltorioRef = useRef(null)
@@ -106,6 +108,7 @@ export default function Dropdown({
         onClick={() => setAberto((valor) => !valor)}
         onKeyDown={aoTeclaNoBotao}
       >
+        {icone}
         <span>{rotulo}</span>
         {opcaoSelecionada && <span className={estilos.valorAtual}>{opcaoSelecionada.rotulo}</span>}
         <span className={`${estilos.seta} ${aberto ? estilos.setaAberta : ''}`} aria-hidden="true">

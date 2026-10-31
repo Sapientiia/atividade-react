@@ -1,13 +1,15 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Dropdown from '../Dropdown/Dropdown.jsx'
+import Icone from '../Icone/Icone.jsx'
+import { useCarrinho } from '../../context/CarrinhoContext.js'
 import { usePreferencias } from '../../context/PreferenciasContext.js'
 import { useToast } from '../../context/ToastContext.js'
 import estilos from './Layout.module.css'
 
 const LINKS = [
   { para: '/', texto: 'Início' },
-  { para: '/faq', texto: 'FAQ' },
   { para: '/produtos', texto: 'Produtos' },
+  { para: '/faq', texto: 'FAQ' },
   { para: '/perfil', texto: 'Perfil' },
   { para: '/upload', texto: 'Upload' },
 ]
@@ -18,12 +20,15 @@ const OPCOES_TEMA = [
   { id: 'sistema', rotulo: 'Automático (sistema)' },
 ]
 
+const ICONE_TEMA = { claro: 'sol', escuro: 'lua', sistema: 'monitor' }
+
 /**
- * Cabeçalho com a navegação principal (React Router) e o Menu Suspenso de tema.
- * O tema escolhido aqui é lido em outras páginas através do contexto global.
+ * Cabeçalho com a navegação principal (React Router), o Menu Suspenso de tema e o
+ * atalho do carrinho. Tema e carrinho vêm de contextos globais.
  */
 export default function Cabecalho() {
-  const { tema, setTema } = usePreferencias()
+  const { tema, temaEfetivo, setTema } = usePreferencias()
+  const { quantidadeTotal } = useCarrinho()
   const { adicionarToast } = useToast()
 
   function aoEscolherTema(opcao) {
@@ -34,9 +39,12 @@ export default function Cabecalho() {
   return (
     <header className={estilos.cabecalho}>
       <div className={`container ${estilos.cabecalhoInterno}`}>
-        <NavLink to="/" className={estilos.marca}>
-          <span aria-hidden="true">◆</span> Loja Aurora
-        </NavLink>
+        <Link to="/" className={estilos.marca} aria-label="Loja Aurora, página inicial">
+          <span className={estilos.marcaIcone}>
+            <Icone nome="raio" tamanho={18} espessura={2.5} />
+          </span>
+          <span className={estilos.marcaTexto}>Loja Aurora</span>
+        </Link>
 
         <nav className={estilos.navegacao} aria-label="Navegação principal">
           <ul className={estilos.listaLinks}>
@@ -57,11 +65,20 @@ export default function Cabecalho() {
         <div className={estilos.acoes}>
           <Dropdown
             rotulo="Tema"
+            icone={<Icone nome={ICONE_TEMA[tema] ?? ICONE_TEMA[temaEfetivo]} tamanho={18} />}
             opcoes={OPCOES_TEMA}
             valorSelecionadoId={tema}
             aoSelecionar={aoEscolherTema}
             alinhamento="direita"
           />
+          <Link to="/carrinho" className={estilos.carrinho} aria-label={`Carrinho, ${quantidadeTotal} item(ns)`}>
+            <Icone nome="carrinho" tamanho={20} />
+            {quantidadeTotal > 0 && (
+              <span className={estilos.carrinhoContador} data-testid="contador-carrinho">
+                {quantidadeTotal}
+              </span>
+            )}
+          </Link>
         </div>
       </div>
     </header>

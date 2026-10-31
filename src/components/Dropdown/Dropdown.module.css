@@ -51,6 +51,7 @@
   left: 0;
   z-index: 50;
   min-width: max(100%, 200px);
+  max-width: calc(100vw - 2 * var(--espaco-3));
   margin: 0;
   padding: var(--espaco-1);
   list-style: none;
