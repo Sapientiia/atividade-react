@@ -1,0 +1,48 @@
+.envoltorio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  font-size: 0.95rem;
+}
+
+.rotulo {
+  font-weight: 600;
+}
+
+.percentual {
+  color: var(--cor-texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.trilha {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--cor-superficie-alt);
+  border: 1px solid var(--cor-borda);
+  overflow: hidden;
+}
+
+.preenchimento {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.primaria {
+  background: var(--cor-primaria);
+}
+
+.sucesso {
+  background: var(--cor-sucesso);
+}
+
+.erro {
+  background: var(--cor-erro);
+}

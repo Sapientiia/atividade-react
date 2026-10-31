@@ -1,0 +1,155 @@
+.heroi {
+  margin-bottom: var(--espaco-4);
+}
+
+.subtitulo {
+  max-width: 60ch;
+  font-size: 1.05rem;
+  color: var(--cor-texto-suave);
+}
+
+/* Grade fluida: 1 coluna no celular, 2 no tablet, 4 no desktop. */
+.grade {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-3);
+  margin: 0 0 var(--espaco-4);
+  padding: 0;
+  list-style: none;
+}
+
+.cartaoDemo {
+  display: flex;
+  flex-direction: column;
+}
+
+.cartaoDemo h3 {
+  margin-bottom: var(--espaco-2);
+}
+
+.cartaoDemo p {
+  flex: 1;
+}
+
+.grupoBotoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+  margin-top: var(--espaco-3);
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-3);
+  cursor: pointer;
+}
+
+.opcao input {
+  width: 20px;
+  height: 20px;
+}
+
+/* Produtos ---------------------------------------------------------------- */
+
+.barraFiltros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  margin-bottom: var(--espaco-3);
+}
+
+.barraFiltros p {
+  margin: 0;
+}
+
+.gradeProdutos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-3);
+  margin: 0 0 var(--espaco-4);
+  padding: 0;
+  list-style: none;
+}
+
+.cartaoProduto h2 {
+  margin: var(--espaco-2) 0;
+  font-size: 1.05rem;
+}
+
+.etiqueta {
+  display: inline-block;
+  padding: 2px var(--espaco-2);
+  border-radius: 999px;
+  background: var(--cor-superficie-alt);
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.preco {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+}
+
+/* Perfil ------------------------------------------------------------------ */
+
+.listaDefinicoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--espaco-1) var(--espaco-3);
+  margin: 0 0 var(--espaco-3);
+}
+
+.listaDefinicoes dt {
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+.listaDefinicoes dd {
+  margin: 0 0 var(--espaco-2);
+}
+
+.endereco {
+  font-style: normal;
+  line-height: 1.7;
+}
+
+/* Upload ------------------------------------------------------------------ */
+
+.listaProgresso {
+  display: grid;
+  gap: var(--espaco-3);
+}
+
+/* Tablet ------------------------------------------------------------------ */
+@media (min-width: 600px) {
+  .grade,
+  .gradeProdutos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .listaDefinicoes {
+    grid-template-columns: max-content 1fr;
+  }
+
+  .listaDefinicoes dd {
+    margin-bottom: 0;
+  }
+}
+
+/* Desktop ----------------------------------------------------------------- */
+@media (min-width: 900px) {
+  .grade {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .gradeProdutos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

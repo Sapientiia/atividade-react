@@ -1,0 +1,102 @@
+.envoltorio {
+  position: relative;
+  display: inline-block;
+}
+
+.gatilho {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 44px;
+  padding: 0 var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gatilho:hover {
+  background: var(--cor-superficie-alt);
+}
+
+/* No celular o valor atual fica oculto para o botão caber na tela; o estado
+   selecionado continua acessível via aria-checked nos itens do menu. */
+.valorAtual {
+  display: none;
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+  white-space: nowrap;
+}
+
+@media (min-width: 600px) {
+  .valorAtual {
+    display: inline;
+  }
+}
+
+.seta {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.setaAberta {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 50;
+  min-width: max(100%, 200px);
+  margin: 0;
+  padding: var(--espaco-1);
+  list-style: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+  box-shadow: var(--sombra);
+}
+
+.menuDireita {
+  left: auto;
+  right: 0;
+}
+
+.item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 0 var(--espaco-3);
+  border: 0;
+  border-radius: calc(var(--raio) - 4px);
+  background: transparent;
+  color: var(--cor-texto);
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-visible {
+  background: var(--cor-superficie-alt);
+}
+
+.itemSelecionado {
+  color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+.itemSelecionado::after {
+  content: '✔' / '';
+  font-size: 0.85rem;
+}
+
+.vazio {
+  margin: 0;
+  padding: var(--espaco-2) var(--espaco-3);
+  color: var(--cor-texto-suave);
+}

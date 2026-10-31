@@ -1,0 +1,115 @@
+# Atividade ReactJS — Loja Aurora
+
+Aplicação web responsiva desenvolvida em **React.js** para a disciplina
+*Tópicos Avançados em Engenharia de Software* (UCSAL, 2026.2).
+Ela reúne os seis componentes visuais exigidos na atividade, cada um
+implementado como componente React próprio, além do desafio extra
+(**Context API** e **React Router**).
+
+## Como executar
+
+Pré-requisitos: Node.js 20.19 ou superior (o GitHub Codespaces já traz o Node 22).
+
+```bash
+npm install        # instala as dependências
+npm run dev        # servidor de desenvolvimento em http://localhost:5173
+npm test           # executa a suíte de testes (Vitest + Testing Library)
+npm run lint       # verificação de código (ESLint)
+npm run build      # gera a versão de produção em dist/
+```
+
+### GitHub Codespaces
+
+O repositório possui `.devcontainer/devcontainer.json`. Ao abrir o Codespace:
+
+1. O `npm install` roda automaticamente ao criar o ambiente.
+2. Execute `npm run dev` no terminal.
+3. A porta 5173 é encaminhada automaticamente e o navegador abre a aplicação.
+
+O Vite está configurado com `server.host = true`, necessário para o
+encaminhamento de portas do Codespaces.
+
+## Estrutura
+
+```
+src/
+├── App.jsx                     # componente principal: provedores + rotas
+├── main.jsx                    # ponto de entrada (ReactDOM)
+├── index.css                   # variáveis de tema, reset e utilitários
+├── components/
+│   ├── Accordion/              # Acordeão
+│   ├── Pagination/             # Paginação (+ calcularPaginasVisiveis.js)
+│   ├── ProgressBar/            # Barra de Progresso (+ normalizarProgresso.js)
+│   ├── Tabs/                   # Abas
+│   ├── Dropdown/               # Menu Suspenso
+│   ├── Toast/                  # Notificação Toast + ToastContainer
+│   └── Layout/                 # Cabeçalho, Rodapé e Layout (Outlet)
+├── context/
+│   ├── ToastContext.js         # contexto + hook useToast
+│   ├── ToastProvider.jsx       # provider de notificações globais
+│   ├── PreferenciasContext.js  # contexto + hook usePreferencias
+│   └── PreferenciasProvider.jsx# provider do tema (claro/escuro/sistema)
+├── data/                       # conteúdo fictício (FAQ e produtos)
+└── pages/                      # uma página por rota
+```
+
+Cada componente fica em sua própria pasta com o arquivo `.jsx`, um
+`*.module.css` (CSS Modules, sem biblioteca de UI externa) e um `*.test.jsx`.
+
+## Componentes e onde são usados
+
+| Componente | Página | Props principais | Estado interno |
+|---|---|---|---|
+| `Accordion` | `/faq` | `itens`, `permitirMultiplos`, `abertoInicialId`, `nivelTitulo` | ids dos itens abertos |
+| `Pagination` | `/produtos` | `paginaAtual`, `totalPaginas`, `aoMudarPagina` | nenhum (controlado pelo pai) |
+| `ProgressBar` | `/upload` | `valor` (0–100), `rotulo`, `mostrarPercentual`, `cor` | nenhum (deriva de `valor`) |
+| `Tabs` | `/perfil` | `abas`, `abaInicialId`, `aoMudarAba`, `rotulo` | aba ativa |
+| `Dropdown` | cabeçalho e `/produtos` | `rotulo`, `opcoes`, `aoSelecionar`, `valorSelecionadoId` | aberto/fechado |
+| `Toast` | todas (via contexto) | `tipo`, `mensagem`, `duracao`, `aoFechar` | temporizador de fechamento |
+
+## Conceitos de React demonstrados
+
+- **Componentes funcionais** em todos os arquivos de `src/components` e `src/pages`.
+- **Props** para passar dados e callbacks (ex.: `Pagination` recebe `totalPaginas` e `aoMudarPagina`).
+- **State local** com `useState` (ex.: item aberto no `Accordion`, aba ativa em `Tabs`).
+- **Hooks**: `useState`, `useEffect` (temporizador do `Toast`, intervalo do upload, clique fora
+  do `Dropdown`, aplicação do tema no `<html>`), `useRef`, `useId`, `useMemo`, `useCallback`, `useContext`.
+- **Eventos**: `onClick`, `onChange`, `onKeyDown`, listeners de `mousedown`/`touchstart` no documento.
+
+## Desafio extra
+
+- **Context API**: `ToastProvider` permite que qualquer componente dispare notificações;
+  `PreferenciasProvider` guarda o tema escolhido no Menu Suspenso do cabeçalho e o
+  disponibiliza para a aba "Preferências" da página de Perfil, que não tem relação direta
+  com o cabeçalho.
+- **React Router**: cinco rotas (`/`, `/faq`, `/produtos`, `/perfil`, `/upload`) mais uma
+  página 404, com layout compartilhado via `<Outlet>` e links ativos com `NavLink`.
+
+## Responsividade
+
+Breakpoints definidos em CSS: celular (até 599px), tablet (600–899px) e desktop (900px+).
+As grades de cartões passam de 1 para 2 e depois 3–4 colunas; o cabeçalho reorganiza a
+navegação em uma segunda linha no celular; a Paginação mostra apenas setas em telas
+pequenas; os toasts ocupam a largura da tela no celular e o canto inferior direito no desktop.
+
+## Acessibilidade
+
+- Tags semânticas: `header`, `nav`, `main`, `section`, `footer`, `address`, `dl`.
+- Acordeão: `button` com `aria-expanded` e `aria-controls`, painel com `role="region"` e `inert` quando fechado.
+- Abas: padrão WAI-ARIA (`tablist`, `tab`, `tabpanel`, `aria-selected`), navegação por setas, Home e End.
+- Menu Suspenso: `aria-haspopup`, `aria-expanded`, `role="menu"` / `menuitemradio`, fecha com Escape e devolve o foco.
+- Paginação: `nav` rotulado, `aria-current="page"`, botões desabilitados nos limites.
+- Barra de Progresso: `role="progressbar"` com `aria-valuenow/min/max` e `aria-valuetext`.
+- Toast: região `aria-live` sempre montada, `role="status"` (sucesso/info) ou `role="alert"` (erro), botão de fechar rotulado.
+- Link "Pular para o conteúdo", foco visível em todos os elementos interativos e
+  respeito a `prefers-reduced-motion`.
+
+## Testes
+
+A suíte cobre cada componente (caminho feliz, erro e casos de borda), os dois contextos,
+as páginas com lógica (Produtos, Upload, FAQ) e um teste de integração do `App`
+(navegação por rotas e compartilhamento de tema via contexto).
+
+```bash
+npm test
+```

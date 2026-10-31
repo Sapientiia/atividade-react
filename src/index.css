@@ -1,0 +1,195 @@
+/* ==========================================================================
+   Estilos globais: variáveis de tema, reset e utilitários de layout.
+   Breakpoints usados no projeto:
+     - celular : até 599px
+     - tablet  : 600px a 899px
+     - desktop : 900px ou mais
+   ========================================================================== */
+
+:root {
+  --cor-fundo: #f4f6fb;
+  --cor-superficie: #ffffff;
+  --cor-superficie-alt: #eef1f8;
+  --cor-texto: #1d2333;
+  --cor-texto-suave: #5a6376;
+  --cor-primaria: #2e5bea;
+  --cor-primaria-escura: #2149c4;
+  --cor-primaria-texto: #ffffff;
+  --cor-borda: #d7dce8;
+  --cor-foco: #ffb020;
+  --cor-sucesso: #15803d;
+  --cor-erro: #c53030;
+  --cor-info: #2f80ed;
+
+  --raio: 10px;
+  --sombra: 0 2px 12px rgba(16, 24, 40, 0.08);
+  --espaco-1: 4px;
+  --espaco-2: 8px;
+  --espaco-3: 16px;
+  --espaco-4: 24px;
+  --espaco-5: 40px;
+  --largura-maxima: 1120px;
+  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  color-scheme: light;
+}
+
+:root[data-tema='escuro'] {
+  --cor-fundo: #11141c;
+  --cor-superficie: #1a1f2b;
+  --cor-superficie-alt: #232a3a;
+  --cor-texto: #e8ecf5;
+  --cor-texto-suave: #a3abbd;
+  --cor-primaria: #6d8cff;
+  --cor-primaria-escura: #5473e8;
+  --cor-primaria-texto: #0d1120;
+  --cor-borda: #2f3748;
+  --sombra: 0 2px 12px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin: 0 0 var(--espaco-3);
+}
+
+h1 {
+  font-size: clamp(1.6rem, 2vw + 1rem, 2.4rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 1vw + 1rem, 1.7rem);
+}
+
+p {
+  margin: 0 0 var(--espaco-3);
+}
+
+a {
+  color: var(--cor-primaria);
+}
+
+button {
+  font: inherit;
+}
+
+/* Foco visível em todos os elementos interativos (acessibilidade por teclado). */
+:focus-visible {
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 2px;
+}
+
+/* Utilitários -------------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  padding: 0 var(--espaco-3);
+}
+
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: var(--espaco-4);
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: 44px;
+  padding: 0 var(--espaco-3);
+  border: 1px solid transparent;
+  border-radius: var(--raio);
+  background: var(--cor-primaria);
+  color: var(--cor-primaria-texto);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.botao:hover {
+  background: var(--cor-primaria-escura);
+}
+
+.botao:active {
+  transform: translateY(1px);
+}
+
+.botao:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.botao--secundario {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border-color: var(--cor-borda);
+}
+
+.botao--secundario:hover {
+  background: var(--cor-superficie-alt);
+}
+
+.botao--sucesso {
+  background: var(--cor-sucesso);
+  color: #fff;
+}
+
+.botao--erro {
+  background: var(--cor-erro);
+  color: #fff;
+}
+
+.texto-suave {
+  color: var(--cor-texto-suave);
+}
+
+/* Oculta visualmente, mas mantém acessível para leitores de tela. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,76 @@
+.paginacao {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+}
+
+.lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.botao {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--espaco-2);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.botao:hover:not(:disabled) {
+  background: var(--cor-superficie-alt);
+}
+
+.botao:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ativo {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: var(--cor-primaria-texto);
+  font-weight: 700;
+}
+
+.reticencias {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 44px;
+  color: var(--cor-texto-suave);
+}
+
+.resumo {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+
+/* No celular, os botões Anterior/Próxima mostram só a seta para caber na tela. */
+.textoNavegacao {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .textoNavegacao {
+    display: inline;
+  }
+
+  .navegacao {
+    padding: 0 var(--espaco-3);
+  }
+}

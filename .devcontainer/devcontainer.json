@@ -1,0 +1,24 @@
+{
+  "name": "Atividade React - UCSAL",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "npm install",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite (aplicação React)",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "MS-CEINTL.vscode-language-pack-pt-BR"
+      ],
+      "settings": {
+        "editor.formatOnSave": false,
+        "editor.tabSize": 2
+      }
+    }
+  }
+}
